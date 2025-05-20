@@ -22,17 +22,74 @@ header h1 {
   font-size: 42px;
 }
 
+/* Horizontally scrollable album container */
+.container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 24px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: 12px;
+  /* Show only 4 albums at a time */
+  max-width: calc(220px * 4 + 24px * 3);
+  margin: 0 auto;
+  /* Optional: hide scrollbar for cleaner look */
+  scrollbar-width: thin;
+  scrollbar-color: #ccc #f4f4f4;
+}
+.container::-webkit-scrollbar {
+  height: 8px;
+}
+.container::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 4px;
+}
+.container::-webkit-scrollbar-track {
+  background: #f4f4f4;
+}
+
 /* Album card styling */
 .album {
   position: relative;
   width: 220px; 
   background: #fff;
   border: 1px solid #ddd;
+  flex: 0 0 220px;
 }
 
 .album img {
   width: 100%;
   display: block;
+}
+
+/* Overlay appears on hover */
+.album .overlay {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  inset: 0;
+  background: rgba(30, 30, 30, 0.85);
+  color: #fff;
+  font-size: 15px;
+  padding: 18px;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.2s;
+  z-index: 2;
+}
+
+.album:hover .overlay,
+.album:focus-within .overlay {
+  opacity: 1;
+  display: flex;
+}
+
+/* Hide info when overlay is visible */
+.album:hover .info,
+.album:focus-within .info {
+  opacity: 0.2;
 }
 
 .info {
@@ -52,4 +109,22 @@ header h1 {
 
 .overlay {
  display: none;
+}
+
+/* Responsive: Stack albums vertically on small screens */
+@media (max-width: 600px) {
+  .container {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    max-width: 100%;
+    overflow-x: visible;
+    gap: 20px;
+    padding-bottom: 0;
+  }
+  .album {
+    width: 100%;
+    max-width: 340px;
+    margin: 0 auto;
+    flex: 0 0 auto;
+  }
 }
